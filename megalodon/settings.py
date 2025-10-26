@@ -13,6 +13,13 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 from pathlib import Path
 import os
 
+
+def _env_flag(name: str, default: str = "1") -> bool:
+    """Return ``True`` when an environment variable represents an enabled flag."""
+
+    value = os.environ.get(name, default)
+    return str(value).strip().lower() not in {"0", "false", "no", "off", ""}
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -126,3 +133,16 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+# PCAP indexing configuration
+PCAP_TSHARK_PATH = os.environ.get("PCAP_TSHARK_PATH", "tshark")
+PCAP_ALLOWED_DIRECTORIES = [
+    os.environ.get("PCAP_STORAGE_ROOT", str(BASE_DIR / "pcaps")),
+]
+PCAP_REQUIRE_WITHIN_ALLOWED = _env_flag("PCAP_REQUIRE_WITHIN_ALLOWED", "1")
+PCAP_ENFORCE_READABLE = _env_flag("PCAP_ENFORCE_READABLE", "1")
+PCAP_UPLOAD_ROOT = os.environ.get(
+    "PCAP_UPLOAD_ROOT", str(BASE_DIR / "pcaps" / "uploads")
+)
+PCAP_INDEX_BATCH_SIZE = int(os.environ.get("PCAP_INDEX_BATCH_SIZE", "500"))
