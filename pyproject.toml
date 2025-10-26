@@ -1,0 +1,59 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "megalodon-pcapindex"
+version = "0.1.0"
+description = "Django utilities for indexing and searching packet capture files"
+readme = "README.md"
+requires-python = ">=3.11"
+license = {file = "LICENSE"}
+authors = [
+    {name = "Megalodon Maintainers", email = "maintainers@example.com"},
+]
+keywords = ["pcap", "django", "network", "tshark", "rest-api"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Framework :: Django",
+    "Framework :: Django :: 5",
+    "License :: OSI Approved :: MIT License",
+    "Intended Audience :: Developers",
+    "Topic :: Internet :: WWW/HTTP",
+]
+dependencies = [
+    "Django>=5.2,<5.3",
+    "djangorestframework>=3.15",
+    "psycopg[binary]>=3.1",
+    "pyshark>=0.6",
+    "python-dotenv>=1.0",
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest>=8.3",
+    "pytest-asyncio>=0.25",
+    "pytest-django>=4.9",
+    "pytest-cov>=5.0",
+]
+release = [
+    "build>=1.2",
+    "twine>=5.1",
+]
+
+[project.urls]
+Homepage = "https://example.com/megalodon"
+Repository = "https://github.com/example/megalodon"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["megalodon", "pcapindex", "pcapindex.*"]
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "megalodon.settings"
+python_files = "tests.py test_*.py *_tests.py"
+addopts = "-ra"
+asyncio_mode = "auto"

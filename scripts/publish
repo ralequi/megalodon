@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if [[ -z "${TWINE_USERNAME:-}" || -z "${TWINE_PASSWORD:-}" ]]; then
+  echo "TWINE_USERNAME and TWINE_PASSWORD must be set" >&2
+  exit 1
+fi
+
+python -m pip install --upgrade build twine
+python -m build
+python -m twine upload dist/*
